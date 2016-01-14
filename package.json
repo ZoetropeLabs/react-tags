@@ -20,7 +20,8 @@
   "license": "MIT",
   "repository": "https://github.com/prakhar1989/react-tags",
   "dependencies": {
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "material-ui": "^0.14.2"
   },
   "peerDependencies": {
     "react": "^0.14.0",

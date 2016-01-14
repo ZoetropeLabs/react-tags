@@ -1,5 +1,12 @@
 'use strict';
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _materialUiLibTextField = require('material-ui/lib/text-field');
+
+var _materialUiLibTextField2 = _interopRequireDefault(_materialUiLibTextField);
+
+// Constants
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Tag = require('./Tag');
@@ -10,8 +17,6 @@ var _require = require('react-dnd');
 var DragDropContext = _require.DragDropContext;
 
 var HTML5Backend = require('react-dnd-html5-backend');
-
-// Constants
 var Keys = {
     ENTER: 13,
     TAB: 9,
@@ -225,9 +230,8 @@ var ReactTags = React.createClass({
         var tagInput = React.createElement(
             'div',
             { className: this.props.classNames.tagInput },
-            React.createElement('input', { ref: 'input',
+            React.createElement(_materialUiLibTextField2['default'], { ref: 'input',
                 type: 'text',
-                placeholder: placeholder,
                 onChange: this.handleChange,
                 onKeyDown: this.handleKeyDown }),
             React.createElement(Suggestions, { query: query,
