@@ -38,7 +38,8 @@ var ReactTags = React.createClass({
         allowDeleteFromEmptyInput: React.PropTypes.bool,
         handleInputChange: React.PropTypes.func,
         minQueryLength: React.PropTypes.number,
-        classNames: React.PropTypes.object
+        classNames: React.PropTypes.object,
+        filterSuggestions: React.PropTypes.func
     },
     getDefaultProps: function getDefaultProps() {
         return {
@@ -58,6 +59,11 @@ var ReactTags = React.createClass({
                 remove: 'ReactTags__remove',
                 suggestions: 'ReactTags__suggestions',
                 active: 'active'
+            },
+            filterSuggestions: function filterSuggestions(query, suggestions) {
+                return suggestions.filter(function (item) {
+                    return item.toLowerCase().startsWith(query.toLowerCase());
+                });
             }
 
         };
@@ -75,13 +81,8 @@ var ReactTags = React.createClass({
             selectionMode: false
         };
     },
-    filteredSuggestions: function filteredSuggestions(query, suggestions) {
-        return suggestions.filter(function (item) {
-            return item.toLowerCase().startsWith(query.toLowerCase());
-        });
-    },
     componentWillReceiveProps: function componentWillReceiveProps(props) {
-        var suggestions = this.filteredSuggestions(this.state.query, props.suggestions);
+        var suggestions = this.props.filterSuggestions(this.state.query, props.suggestions);
         this.setState({
             suggestions: suggestions
         });
@@ -97,7 +98,7 @@ var ReactTags = React.createClass({
         }
 
         var query = e.target.value.trim();
-        var suggestions = this.filteredSuggestions(query, this.props.suggestions);
+        var suggestions = this.props.filterSuggestions(query, this.props.suggestions);
 
         this.setState({
             query: query,
