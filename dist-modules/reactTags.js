@@ -37,7 +37,8 @@ var ReactTags = React.createClass({
         handleDrag: React.PropTypes.func.isRequired,
         allowDeleteFromEmptyInput: React.PropTypes.bool,
         handleInputChange: React.PropTypes.func,
-        minQueryLength: React.PropTypes.number
+        minQueryLength: React.PropTypes.number,
+        classNames: React.PropTypes.object
     },
     getDefaultProps: function getDefaultProps() {
         return {
@@ -48,7 +49,16 @@ var ReactTags = React.createClass({
             autofocus: true,
             inline: true,
             allowDeleteFromEmptyInput: true,
-            minQueryLength: 2
+            minQueryLength: 2,
+            classNames: {
+                tags: 'ReactTags__tags',
+                tagInput: 'ReactTags__tagInput',
+                selected: 'ReactTags__selected',
+                tag: 'ReactTags__tag',
+                remove: 'ReactTags__remove',
+                suggestions: 'ReactTags__suggestions'
+            }
+
         };
     },
     componentDidMount: function componentDidMount() {
@@ -204,7 +214,8 @@ var ReactTags = React.createClass({
                 tag: tag,
                 labelField: this.props.labelField,
                 onDelete: this.handleDelete.bind(this, i),
-                moveTag: this.moveTag });
+                moveTag: this.moveTag,
+                classNames: this.props.classNames });
         }).bind(this));
 
         // get the suggestions for the given query
@@ -215,7 +226,7 @@ var ReactTags = React.createClass({
 
         var tagInput = React.createElement(
             'div',
-            { className: 'ReactTags__tagInput' },
+            { className: this.props.classNames.tagInput },
             React.createElement('input', { ref: 'input',
                 type: 'text',
                 placeholder: placeholder,
@@ -226,15 +237,16 @@ var ReactTags = React.createClass({
                 selectedIndex: selectedIndex,
                 handleClick: this.handleSuggestionClick,
                 handleHover: this.handleSuggestionHover,
-                minQueryLength: this.props.minQueryLength })
+                minQueryLength: this.props.minQueryLength,
+                classNames: this.props.classNames })
         );
 
         return React.createElement(
             'div',
-            { className: 'ReactTags__tags' },
+            { className: this.props.classNames.tags },
             React.createElement(
                 'div',
-                { className: 'ReactTags__selected' },
+                { className: this.props.classNames.selected },
                 tagItems,
                 this.props.inline && tagInput
             ),
