@@ -15,11 +15,17 @@ var Suggestions = React.createClass({
         classNames: React.PropTypes.object
     },
     markIt: function markIt(input, query) {
-        var escapedRegex = query.trim().replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
-        var r = RegExp(escapedRegex, "gi");
-        return {
-            __html: input.replace(r, "<mark>$&</mark>")
-        };
+        if (input) {
+            var escapedRegex = query.trim().replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
+            var r = RegExp(escapedRegex, "gi");
+            return {
+                __html: input.replace(r, "<mark>$&</mark>")
+            };
+        } else {
+            return {
+                __html: input
+            };
+        }
     },
     render: function render() {
         var props = this.props;

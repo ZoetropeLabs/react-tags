@@ -119,7 +119,7 @@ var ReactTags = React.createClass({
             e.preventDefault();
             if (query !== "") {
                 if (this.state.selectionMode) {
-                    query = this.state.suggestions[this.state.selectedIndex];
+                    query = this.props.suggestions[this.state.selectedIndex];
                 }
                 this.addTag(query);
             }
@@ -137,7 +137,7 @@ var ReactTags = React.createClass({
             // last item, cycle to the top
             if (selectedIndex <= 0) {
                 this.setState({
-                    selectedIndex: this.state.suggestions.length - 1,
+                    selectedIndex: this.props.suggestions.length - 1,
                     selectionMode: true
                 });
             } else {
@@ -175,7 +175,7 @@ var ReactTags = React.createClass({
         input.focus();
     },
     handleSuggestionClick: function handleSuggestionClick(i, e) {
-        this.addTag(this.state.suggestions[i]);
+        this.addTag(this.props.suggestions[i]);
     },
     handleSuggestionHover: function handleSuggestionHover(i, e) {
         this.setState({
@@ -214,7 +214,6 @@ var ReactTags = React.createClass({
         // get the suggestions for the given query
         var query = this.state.query.trim(),
             selectedIndex = this.state.selectedIndex,
-            suggestions = this.state.suggestions,
             placeholder = this.props.placeholder;
 
         var tagInput = React.createElement(
