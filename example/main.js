@@ -65,7 +65,14 @@ var App = React.createClass({
                     handleDelete={this.handleDelete}
                     handleAddition={this.handleAddition}
                     handleDrag={this.handleDrag}
-                    minQueryLength={2} />
+                    minQueryLength={2}
+                    classNames={{
+                      tags: 'tags',
+                      tagInput: 'tagInput',
+                      selected: 'selected',
+                      suggestions:'suggestions',
+                      tag: 'tag',
+                      remove: 'remove'}}/>
                 <hr />
                 <pre>
                     <code>{JSON.stringify(tags, null, 2)}</code>

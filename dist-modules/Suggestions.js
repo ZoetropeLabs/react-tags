@@ -29,7 +29,7 @@ var Suggestions = React.createClass({
                 { key: i,
                     onClick: props.handleClick.bind(null, i),
                     onMouseOver: props.handleHover.bind(null, i),
-                    className: i == props.selectedIndex ? "active" : "" },
+                    className: i == props.selectedIndex ? props.classNames.active : "" },
                 React.createElement("span", { dangerouslySetInnerHTML: this.markIt(item, props.query) })
             );
         }).bind(this));

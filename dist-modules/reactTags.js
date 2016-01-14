@@ -56,7 +56,8 @@ var ReactTags = React.createClass({
                 selected: 'ReactTags__selected',
                 tag: 'ReactTags__tag',
                 remove: 'ReactTags__remove',
-                suggestions: 'ReactTags__suggestions'
+                suggestions: 'ReactTags__suggestions',
+                active: 'active'
             }
 
         };
