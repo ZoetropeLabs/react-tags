@@ -47,7 +47,9 @@ var Tag = React.createClass({
         onDelete: React.PropTypes.func.isRequired,
         tag: React.PropTypes.object.isRequired,
         moveTag: React.PropTypes.func.isRequired,
-        classNames: React.PropTypes.object
+        classNames: React.PropTypes.object,
+        tagDisplayKey: React.PropTypes.string.isRequired,
+        tagIdKey: React.PropTypes.string.isRequired
     },
     getDefaultProps: function getDefaultProps() {
         return {

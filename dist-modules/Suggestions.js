@@ -12,7 +12,9 @@ var Suggestions = React.createClass({
         handleClick: React.PropTypes.func.isRequired,
         handleHover: React.PropTypes.func.isRequired,
         minQueryLength: React.PropTypes.number,
-        classNames: React.PropTypes.object
+        classNames: React.PropTypes.object,
+        suggestionsIdKey: React.PropTypes.string,
+        suggestionsDisplayKey: React.PropTypes.string
     },
     markIt: function markIt(input, query) {
         if (input) {
@@ -30,13 +32,15 @@ var Suggestions = React.createClass({
     render: function render() {
         var props = this.props;
         var suggestions = this.props.suggestions.map((function (item, i) {
+            var idVal = item[props.suggestionsIdKey] || '';
+            var displayVal = item[props.suggestionsDisplayKey] || '';
             return React.createElement(
                 "li",
-                { key: i,
+                { key: idVal,
                     onClick: props.handleClick.bind(null, i),
                     onMouseOver: props.handleHover.bind(null, i),
                     className: i == props.selectedIndex ? props.classNames.active : "" },
-                React.createElement("span", { dangerouslySetInnerHTML: this.markIt(item, props.query) })
+                React.createElement("span", { dangerouslySetInnerHTML: this.markIt(displayVal, props.query) })
             );
         }).bind(this));
 

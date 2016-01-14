@@ -39,7 +39,9 @@ var ReactTags = React.createClass({
         handleInputChange: React.PropTypes.func,
         minQueryLength: React.PropTypes.number,
         classNames: React.PropTypes.object,
-        filterSuggestions: React.PropTypes.func.isRequired
+        filterSuggestions: React.PropTypes.func.isRequired,
+        suggestionsIdKey: React.PropTypes.string.isRequired,
+        suggestionsDisplayKey: React.PropTypes.string.isRequired
     },
     getDefaultProps: function getDefaultProps() {
         return {
@@ -78,6 +80,9 @@ var ReactTags = React.createClass({
     },
     componentWillReceiveProps: function componentWillReceiveProps(props) {
         // this.props.filterSuggestions(this.state.query, props.suggestions);
+        this.setState({
+            suggestions: props.suggestions
+        });
     },
 
     handleDelete: function handleDelete(i, e) {
@@ -158,6 +163,7 @@ var ReactTags = React.createClass({
         }
     },
     addTag: function addTag(tag) {
+        console.log('tag', tag);
         var input = this.refs.input;
 
         // call method to add
@@ -225,11 +231,13 @@ var ReactTags = React.createClass({
                 onChange: this.handleChange,
                 onKeyDown: this.handleKeyDown }),
             React.createElement(Suggestions, { query: query,
-                suggestions: this.props.suggestions,
+                suggestions: this.state.suggestions,
                 selectedIndex: selectedIndex,
                 handleClick: this.handleSuggestionClick,
                 handleHover: this.handleSuggestionHover,
                 minQueryLength: this.props.minQueryLength,
+                suggestionsDisplayKey: this.props.suggestionsDisplayKey,
+                suggestionsIdKey: this.props.suggestionsIdKey,
                 classNames: this.props.classNames })
         );
 
