@@ -211,7 +211,7 @@ var ReactTags = React.createClass({
     },
     render: function render() {
         var tagItems = this.props.tags.map((function (tag, i) {
-            return React.createElement(Tag, { key: tag.id,
+            return React.createElement(Tag, { key: tag.id || i,
                 tag: tag,
                 labelField: this.props.labelField,
                 onDelete: this.handleDelete.bind(this, i),
