@@ -39,7 +39,7 @@ var ReactTags = React.createClass({
         handleInputChange: React.PropTypes.func,
         minQueryLength: React.PropTypes.number,
         classNames: React.PropTypes.object,
-        filterSuggestions: React.PropTypes.func
+        filterSuggestions: React.PropTypes.func.isRequired
     },
     getDefaultProps: function getDefaultProps() {
         return {
@@ -59,11 +59,6 @@ var ReactTags = React.createClass({
                 remove: 'ReactTags__remove',
                 suggestions: 'ReactTags__suggestions',
                 active: 'active'
-            },
-            filterSuggestions: function filterSuggestions(query, suggestions) {
-                return suggestions.filter(function (item) {
-                    return item.toLowerCase().startsWith(query.toLowerCase());
-                });
             }
 
         };
@@ -82,10 +77,7 @@ var ReactTags = React.createClass({
         };
     },
     componentWillReceiveProps: function componentWillReceiveProps(props) {
-        var suggestions = this.props.filterSuggestions(this.state.query, props.suggestions);
-        this.setState({
-            suggestions: suggestions
-        });
+        // this.props.filterSuggestions(this.state.query, props.suggestions);
     },
 
     handleDelete: function handleDelete(i, e) {
@@ -98,11 +90,10 @@ var ReactTags = React.createClass({
         }
 
         var query = e.target.value.trim();
-        var suggestions = this.props.filterSuggestions(query, this.props.suggestions);
+        this.props.filterSuggestions(query, this.props.suggestions);
 
         this.setState({
-            query: query,
-            suggestions: suggestions
+            query: query
         });
     },
     handleKeyDown: function handleKeyDown(e) {
@@ -235,7 +226,7 @@ var ReactTags = React.createClass({
                 onChange: this.handleChange,
                 onKeyDown: this.handleKeyDown }),
             React.createElement(Suggestions, { query: query,
-                suggestions: suggestions,
+                suggestions: this.props.suggestions,
                 selectedIndex: selectedIndex,
                 handleClick: this.handleSuggestionClick,
                 handleHover: this.handleSuggestionHover,
