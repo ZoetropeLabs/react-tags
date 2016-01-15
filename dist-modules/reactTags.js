@@ -228,6 +228,7 @@ var ReactTags = React.createClass({
             React.createElement(this.props.inputComponent, { ref: 'input',
                 type: 'text',
                 onChange: this.handleChange,
+                floatingLabelText: placeholder,
                 onKeyDown: this.handleKeyDown }),
             React.createElement(Suggestions, { query: query,
                 suggestions: this.state.suggestions,
