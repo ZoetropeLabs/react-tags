@@ -32,7 +32,7 @@ var Suggestions = React.createClass({
     render: function render() {
         var props = this.props;
         var suggestions = this.props.suggestions.map((function (item, i) {
-            var idVal = item[props.suggestionsIdKey] || '';
+            var idVal = item[props.suggestionsIdKey].toString() || '';
             var displayVal = item[props.suggestionsDisplayKey] || '';
             return React.createElement(
                 "li",
