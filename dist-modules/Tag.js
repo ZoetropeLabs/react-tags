@@ -57,7 +57,7 @@ var Tag = React.createClass({
         };
     },
     render: function render() {
-        var label = this.props.tag[this.props.labelField];
+        var label = this.props.tag[this.props.tagDisplayKey];
         var _props = this.props;
         var connectDragSource = _props.connectDragSource;
         var isDragging = _props.isDragging;

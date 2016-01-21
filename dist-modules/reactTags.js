@@ -41,7 +41,12 @@ var ReactTags = React.createClass({
         classNames: React.PropTypes.object,
         filterSuggestions: React.PropTypes.func.isRequired,
         suggestionsIdKey: React.PropTypes.string.isRequired,
-        suggestionsDisplayKey: React.PropTypes.string.isRequired
+        suggestionsDisplayKey: React.PropTypes.string.isRequired,
+        onlyValidTags: React.PropTypes.bool,
+        disableInput: React.PropTypes.bool,
+        fullWidth: React.PropTypes.bool,
+        errorMessage: React.PropTypes.string,
+        allowDuplocates: React.PropTypes.bool
     },
     getDefaultProps: function getDefaultProps() {
         return {
@@ -61,8 +66,11 @@ var ReactTags = React.createClass({
                 remove: 'ReactTags__remove',
                 suggestions: 'ReactTags__suggestions',
                 active: 'active'
-            }
-
+            },
+            onlyValidTags: true,
+            disableInput: false,
+            fullWidth: false,
+            errorMessage: null
         };
     },
     componentDidMount: function componentDidMount() {
@@ -75,13 +83,15 @@ var ReactTags = React.createClass({
             suggestions: this.props.suggestions,
             query: "",
             selectedIndex: -1,
-            selectionMode: false
+            selectionMode: false,
+            errorMessage: null
         };
     },
     componentWillReceiveProps: function componentWillReceiveProps(props) {
         // this.props.filterSuggestions(this.state.query, props.suggestions);
         this.setState({
-            suggestions: props.suggestions
+            suggestions: props.suggestions,
+            errorMessage: props.errorMessage
         });
     },
 
@@ -89,6 +99,7 @@ var ReactTags = React.createClass({
         this.props.handleDelete(i);
         this.setState({ query: "" });
     },
+
     handleChange: function handleChange(e) {
         if (this.props.handleInputChange) {
             this.props.handleInputChange(e.target.value.trim());
@@ -101,6 +112,7 @@ var ReactTags = React.createClass({
             query: query
         });
     },
+
     handleKeyDown: function handleKeyDown(e) {
         var _state = this.state;
         var query = _state.query;
@@ -123,10 +135,18 @@ var ReactTags = React.createClass({
         if (this.props.delimeters.indexOf(e.keyCode) !== -1) {
             e.preventDefault();
             if (query !== "") {
-                if (this.state.selectionMode) {
-                    query = this.props.suggestions[this.state.selectedIndex];
+                if (this.props.onlyValidTags && this.props.suggestions.length === 0) {
+                    this.setState({
+                        errorMessage: 'Please select one of the suggestions'
+                    });
+                } else {
+                    if (this.state.selectionMode) {
+                        query = this.props.suggestions[this.state.selectedIndex];
+                    } else {
+                        query = this.props.suggestions[0];
+                    }
+                    this.addTag(query);
                 }
-                this.addTag(query);
             }
         }
 
@@ -163,7 +183,6 @@ var ReactTags = React.createClass({
         }
     },
     addTag: function addTag(tag) {
-        console.log('tag', tag);
         var input = this.refs.input;
 
         // call method to add
@@ -171,6 +190,7 @@ var ReactTags = React.createClass({
 
         // reset the state
         this.setState({
+            errorMessage: null,
             query: "",
             selectionMode: false,
             selectedIndex: -1
@@ -209,9 +229,11 @@ var ReactTags = React.createClass({
     },
     render: function render() {
         var tagItems = this.props.tags.map((function (tag, i) {
-            return React.createElement(Tag, { key: tag.id || i,
+            return React.createElement(Tag, { key: i,
                 tag: tag,
                 labelField: this.props.labelField,
+                tagIdKey: this.props.suggestionsIdKey,
+                tagDisplayKey: this.props.suggestionsDisplayKey,
                 onDelete: this.handleDelete.bind(this, i),
                 moveTag: this.moveTag,
                 classNames: this.props.classNames });
@@ -227,9 +249,12 @@ var ReactTags = React.createClass({
             { className: this.props.classNames.tagInput },
             React.createElement(this.props.inputComponent, { ref: 'input',
                 type: 'text',
+                disabled: this.props.disabled,
+                fullWidth: this.props.fullWidth,
                 onChange: this.handleChange,
                 floatingLabelText: placeholder,
-                onKeyDown: this.handleKeyDown }),
+                onKeyDown: this.handleKeyDown,
+                errorText: this.state.errorMessage }),
             React.createElement(Suggestions, { query: query,
                 suggestions: this.state.suggestions,
                 selectedIndex: selectedIndex,
