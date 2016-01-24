@@ -46,7 +46,7 @@ var ReactTags = React.createClass({
         disableInput: React.PropTypes.bool,
         fullWidth: React.PropTypes.bool,
         errorMessage: React.PropTypes.string,
-        allowDuplocates: React.PropTypes.bool
+        allowDuplicates: React.PropTypes.bool
     },
     getDefaultProps: function getDefaultProps() {
         return {
@@ -65,12 +65,14 @@ var ReactTags = React.createClass({
                 tag: 'ReactTags__tag',
                 remove: 'ReactTags__remove',
                 suggestions: 'ReactTags__suggestions',
-                active: 'active'
+                active: 'active',
+                tagItemsLabel: 'ReactTags__tagItemsLabel'
             },
             onlyValidTags: true,
             disableInput: false,
             fullWidth: false,
-            errorMessage: null
+            errorMessage: null,
+            tagItemsLabel: 'Selected:'
         };
     },
     componentDidMount: function componentDidMount() {
@@ -244,13 +246,18 @@ var ReactTags = React.createClass({
             selectedIndex = this.state.selectedIndex,
             placeholder = this.props.placeholder;
 
+        var tagItemsLabel = React.createElement(
+            'span',
+            { className: this.props.classNames.tagItemsLabel },
+            this.props.tagItemsLabel
+        );
         var tagInput = React.createElement(
             'div',
             { className: this.props.classNames.tagInput },
             React.createElement(this.props.inputComponent, { ref: 'input',
                 type: 'text',
                 disabled: this.props.disabled,
-                fullWidth: this.props.fullWidth,
+                fullWidth: true,
                 onChange: this.handleChange,
                 floatingLabelText: placeholder,
                 onKeyDown: this.handleKeyDown,
@@ -272,8 +279,9 @@ var ReactTags = React.createClass({
             React.createElement(
                 'div',
                 { className: this.props.classNames.selected },
-                tagItems,
-                this.props.inline && tagInput
+                this.props.inline && tagInput,
+                !this.props.inline && tagItemsLabel,
+                tagItems
             ),
             !this.props.inline && tagInput
         );
