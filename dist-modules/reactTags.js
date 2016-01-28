@@ -135,8 +135,8 @@ var ReactTags = React.createClass({
         // If no text is typed in so far, ignore the action - so we don't end up with a terminating
         // character typed in.
         if (this.props.delimeters.indexOf(e.keyCode) !== -1) {
-            e.preventDefault();
             if (query !== "") {
+                e.preventDefault();
                 if (this.props.onlyValidTags && this.props.suggestions.length === 0) {
                     this.setState({
                         errorMessage: 'Please select one of the suggestions'
