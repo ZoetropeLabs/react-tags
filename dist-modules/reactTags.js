@@ -144,10 +144,13 @@ var ReactTags = React.createClass({
                 } else {
                     if (this.state.selectionMode) {
                         query = this.props.suggestions[this.state.selectedIndex];
-                    } else if (this.props.suggestions.length != 0) {
-                        query = this.props.suggestions[0];
                     } else {
-                        this.addTag(query);
+                        if (this.props.suggestions[0]) {
+                            query = this.props.suggestions[0];
+                            this.addTag(query);
+                        } else if (!this.props.onlyValidTags) {
+                            this.addTag(query);
+                        }
                     }
                 }
             }
