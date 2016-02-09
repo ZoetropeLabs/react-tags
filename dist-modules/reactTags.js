@@ -261,7 +261,7 @@ var ReactTags = React.createClass({
             React.createElement(this.props.inputComponent, { ref: 'input',
                 type: 'text',
                 disabled: this.props.disabled,
-                fullWidth: true,
+                fullWidth: this.props.fullWidth,
                 onChange: this.handleChange,
                 floatingLabelText: placeholder,
                 onKeyDown: this.handleKeyDown,
@@ -283,9 +283,9 @@ var ReactTags = React.createClass({
             React.createElement(
                 'div',
                 { className: this.props.classNames.selected },
-                this.props.inline && tagInput,
                 !this.props.inline && tagItemsLabel,
-                tagItems
+                tagItems,
+                this.props.inline && tagInput
             ),
             !this.props.inline && tagInput
         );
